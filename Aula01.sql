@@ -252,5 +252,5 @@ SELECT
         WHEN YEAR(data_nascimento) BETWEEN 1995 AND 2009 THEN "Geração Z"
         WHEN YEAR(data_nascimento) BETWEEN 2010 AND 2023 THEN "Geração Alpha"
         ELSE "Geração X"
-    END AS "Geração"
+    END AS "Geração" -- AS chamado ALIAS (Apelido)
     FROM alunos;
