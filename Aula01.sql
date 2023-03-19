@@ -146,3 +146,38 @@ SELECT id, nome, data_nascimento FROM alunos;
 
 -- Atualiazar a data de nascimento do José
 UPDATE alunos SET data_nascimento='2000-06-28' WHERE id = 1;
+UPDATE alunos SET data_nascimento='2004-10-27' WHERE id = 2;
+UPDATE alunos SET data_nascimento='1981-10-18' WHERE id = 3;
+UPDATE alunos SET data_nascimento='2000-01-01' WHERE id = 4;
+UPDATE alunos SET data_nascimento='1996-07-27' WHERE id = 5;
+UPDATE alunos SET data_nascimento='2000-01-02' WHERE id = 6;
+
+-- Consultar as datas de nascimento da tabela
+SELECT
+    DATE_FORMAT(data_nascimento, "%d/%m/%Y") AS 'Data de nascimento' 
+    FROM alunos;
+
+-- Consultar o ano da data de nascimento
+SELECT YEAR(data_nascimento) FROM alunos;
+
+-- Consultar o mês da data de nascimento
+SELECT MONTH(data_nascimento) FROM alunos;
+
+-- Consultar o dia da data de nascimento
+SELECT DAY(data_nascimento) FROM alunos;
+
+-- Consultar o nome e data de nascimento concatenados
+SELECT CONCAT(nome," ", data_nascimento) FROM alunos;
+
+-- Consultar o nome e data de nascimento, de alunos nascidos depois de 1999
+-- ordenando por múltiplas colunas
+SELECT nome, data_nascimento
+    FROM alunos
+    WHERE YEAR(data_nascimento) >= 2000
+    ORDER BY YEAR(data_nascimento) ASC, MONTH(data_nascimento) ASC, DAY(data_nascimento) ASC
+
+SELECT id, nome, data_nascimento 
+    FROM alunos
+    WHERE
+        YEAR(data_nascimento) >= 1990 AND
+        YEAR(data_nascimento) <= 1999;
