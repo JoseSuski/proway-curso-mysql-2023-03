@@ -143,3 +143,6 @@ ALTER TABLE alunos ADD COLUMN data_nascimento DATE;
 
 -- Consultar a data de nascimento dos alunos
 SELECT id, nome, data_nascimento FROM alunos;
+
+-- Atualiazar a data de nascimento do José
+UPDATE alunos SET data_nascimento='2000-06-28' WHERE id = 1;
