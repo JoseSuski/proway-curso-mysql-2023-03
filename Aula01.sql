@@ -254,3 +254,124 @@ SELECT
         ELSE "Geração X"
     END AS "Geração" -- AS chamado ALIAS (Apelido)
     FROM alunos;
+
+CREATE TABLE turmas(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    id_curso INT NOT NULL, -- FK(id_curso) aponta tabela cursos para coluna id(PK)
+    id_professor INT NOT NULL,-- FK(id_professor) aponta tabela professores para coluna id(PK)
+
+    data_inicio DATE NOT NULL,
+    data_termino DATE NOT NULL,
+
+    -- FOREIGN KEY(nome_da_coluna_de_fk) REFERENCES nome_tabela(primary_key)
+    FOREIGN KEY(id_curso) REFERENCES cursos(id),
+    FOREIGN KEY(id_professor) REFERENCES professores(id)
+);
+
+
+
+INSERT INTO turmas (id_curso, id_professor, data_inicio, data_termino) VALUES
+(1,	1,	"2023-03-12",	"2023-04-16"),
+(2,	1,	"2023-05-01",	"2023-07-10"),
+(3,	2,	"2024-01-01",	"2024-02-10"),
+(4,	2,	"2022-01-01",	"2022-12-31"),
+(5,	3,	"2023-04-01",	"2023-04-10"),
+(6,	4,	"2024-01-10",	"2024-02-10"),
+(5,	5,	"2023-05-11",	"2023-05-20"),
+(5,	3,	"2023-08-01",	"2023-08-20");
+
+-- Consultar nome do professor e data de início
+SELECT
+    t.id, -- > ID da tabela de turmas, ou seja, o código da turma
+    p.nome AS "Professor", -- > Nome do professor da tabela professores
+    t.data_inicio
+    FROM turmas AS t
+    -- INNER JOIN nome_tabela AS apelido ON (PK = FK)
+    INNER JOIN professores AS p ON (p.id = t.id_professor);
+
+SELECT 
+    cursos.nome AS "Curso",
+    turmas.data_inicio AS "Data de inicio",
+    turmas.data_termino AS "Data de término"
+    FROM turmas
+    INNER JOIN cursos ON(cursos.id = turmas.id_curso);
+
+SELECT
+    LOWER(professores.nome) AS "Professor", -- Nome do professor em caixa baixa
+    UPPER(cursos.nome) AS "Curso", -- Nome do curso em caixa alta
+    turmas.data_inicio AS "Data de inicio",
+    turmas.data_termino AS "Data de término"
+    FROM turmas
+    INNER JOIN professores ON(professores.id = turmas.id_professor)
+    INNER JOIN cursos ON (cursos.id = turmas.id_curso);
+
+-- Nome do professor => Nome Curso (Carga horária)
+SELECT
+    CONCAT(
+        professores.nome, SPACE(30 - LENGTH(professores.nome)), " => ",
+        cursos.nome,SPACE(30 - LENGTH(cursos.nome)), " (",
+        cursos.carga_horaria, ")"
+    ) AS "Turmas"
+    FROM professores
+    INNER JOIN turmas ON (professores.id = turmas.id_professor)
+    INNER JOIN cursos ON (cursos.id = turmas.id_curso);
+
+SELECT CONCAT(SUBSTRING(nome, 1, 2), "...") FROM cursos;
+
+CREATE TABLE mercadorias(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(50) NOT NULL
+);
+
+INSERT INTO mercadorias(nome) VALUES
+("   Nescau   "),
+("Nescau"),
+("Nescau  "),
+("Nescau cereal"),
+("O nescau de todo dia"),
+("Nescal com L"),
+("Uma mercadoria que termina com nescau");
+
+-- Consultar as mercadorias onde o nome Nescau
+SELECT * FROM mercadorias WHERE nome = "Nescau"; -- 2
+
+-- Consultar as mercadorias onde nome termina com nescau
+SELECT * FROM mercadorias WHERE nome LIKE "Nescau%"; -- 2,3,4
+
+-- Consultar as mercadorias onde nome começa com nescau
+SELECT * FROM mercadorias WHERE nome LIKE "%Nescau"; -- 2,7
+
+-- Consultar as mercadorias que contém com nescau
+SELECT * FROM mercadorias WHERE nome LIKE "%Nescau%"; -- 1,2,3,4,5,7
+
+-- Consultar o nome das mercadorias substituindo o Nescal por Nescau
+SELECT REPLACE(nome, "Nescal", "Nescau") FROM mercadorias;
+
+-- Consultar o nome removendo os espaços da esquerda
+SELECT LTRIM(nome), LENGTH(LTRIM(nome)) FROM mercadorias;
+
+-- Consultar o nome removendo os espaços da esquerda
+SELECT RTRIM(nome), LENGTH(RTRIM(nome)) FROM mercadorias;
+
+-- Consultar o nome removendo os espaços da esquerda e direita
+SELECT TRIM(nome), LENGTH(TRIM(nome)) FROM mercadorias;
+
+-- Adicionar coluna de data de vencimento na tabela de mercadorias
+ALTER TABLE mercadorias ADD COLUMN data_vencimento DATE;
+
+-- Apagar coluna de data de vencimento da tabela de mercadorias;
+ALTER TABLE mercadorias DROP COLUMN data_vencimento;
+
+-- Consultar o comando de CREATE TABLE da tabela de mercadorias
+SHOW CREATE TABLE mercadorias;
+
+-- Adicionar coluna de
+ALTER TABLE mercadorias ADD COLUMN data_vencimento DATE; -- Será adicionada depois da coluna nome
+ALTER TABLE mercadorias ADD COLUMN estoque INT FIRST; -- Será a primeira coluna
+-- Será adicionada entre a coluna nome e data_vencimento
+ALTER TABLE mercadorias ADD COLUMN valor_unitario FLOAT(5,2) AFTER nome; 
+
+-- Definir o valor padrão para a coluna data de vencimento do produto
+ALTER TABLE mercadorias ALTER data_vencimento SET DEFAULT '2023-04-05'
+ALTER TABLE mercadorias ALTER data_vencimento SET DEFAULT DATE_ADD(NOW(),INTERVAL 10 DAY);
+
