@@ -373,5 +373,80 @@ ALTER TABLE mercadorias ADD COLUMN valor_unitario FLOAT(5,2) AFTER nome;
 
 -- Definir o valor padrão para a coluna data de vencimento do produto
 ALTER TABLE mercadorias ALTER data_vencimento SET DEFAULT '2023-04-05'
-ALTER TABLE mercadorias ALTER data_vencimento SET DEFAULT DATE_ADD(NOW(),INTERVAL 10 DAY);
+-- TODO
+-- ALTER TABLE mercadorias ALTER data_vencimento SET DEFAULT ;
 
+UPDATE mercadorias SET data_vencimento = DATE_ADD(NOW(),INTERVAL 10 DAY);
+
+INSERT INTO mercadorias(nome, estoque, valor_unitario) VALUE ('Toddy', 3, 13.5);
+
+ALTER TABLE mercadorias ALTER data_vencimento DROP DEFAULT;
+
+INSERT INTO mercadorias (nome, estoque, valor_unitario, data_vencimento) VALUE
+('Todinho', 1,5.00, '2024-01-01');
+
+-- Alterar o tamanho da coluna do nome de 30 carac para 75 carac
+ALTER TABLE mercadorias MODIFY nome VARCHAR(75);
+
+-- Renomear coluna valor_unitario para preco_unitario da tabela de mercadorias
+ALTER TABLE mercadorias CHANGE valor_unitario preco_unitario FLOAT(5,2);
+
+-- Renomear tabela de mercadorias para mercadorias_do_mercado
+ALTER TABLE mercadorias RENAME TO mercadorias_do_mercado;
+
+CREATE TABLE alunos_turmas (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    id_turma INT NOT NULL,
+    id_aluno INT NOT NULL,
+
+    FOREIGN KEY(id_turma) REFERENCES turmas(id),
+    FOREIGN KEY(id_aluno) REFERENCES alunos(id)
+
+);
+
+INSERT INTO alunos_turmas(id_turma, id_aluno) VALUES
+(1, 1),
+(1, 2),
+(1, 3),
+(1, 4),
+(1, 5),
+(2, 2),
+(3, 1),
+(3, 5),
+(4, 4),
+(7, 1),
+(8, 1),
+(6, 5),
+(6, 4),
+(6, 1);
+
+SELECT 
+    alunos.nome AS "Aluno",
+    turmas.id AS "Código da Turma",
+    cursos.nome AS "Curso"
+    FROM alunos_turmas
+    INNER JOIN turmas ON(turmas.id = alunos_turmas.id_turma)
+    INNER JOIN cursos ON(cursos.id = turmas.id_curso)
+    INNER JOIN alunos ON(alunos.id = alunos_turmas.id_aluno);
+
+SELECT
+    alunos.nome AS "Aluno",
+    professores.nome AS "Professor"
+    FROM alunos_turmas
+
+    INNER JOIN alunos ON(alunos.id = alunos_turmas.id_aluno)
+    INNER JOIN turmas ON(turmas.id = alunos_turmas.id_turma)
+    INNER JOIN professores ON (professores.id = turmas.id_professor);
+
+SELECT 
+    alunos.nome AS "Aluno",
+    cursos.nome AS "Curso",
+    turmas.data_inicio AS "Data início",
+    turmas.data_termino AS "Data término"
+    FROM alunos_turmas
+
+    INNER JOIN alunos ON(alunos.id = alunos_turmas.id_aluno)
+    INNER JOIN turmas ON(turmas.id = alunos_turmas.id_turma)
+    INNER JOIN cursos ON(cursos.id = turmas.id_curso)
+    
+    ORDER BY data_inicio ASC;
