@@ -599,19 +599,19 @@ BEGIN
     DECLARE geracao VARCHAR(30);
     DECLARE ano INT;
     SET ano := YEAR(data_nascimento);
-
     IF ano >= 1940 AND ano <= 1960 THEN
         SET geracao := "Baby Boomers";
-    ELSEIF AND ano <= 1980 THEN
+    ELSEIF ano >= 1961 AND ano <= 1980 THEN
         SET geracao := "Geração X";
-    ELSEIF AND ano <= 1997 THEN
+    ELSEIF ano >= 1981 AND ano <= 1997 THEN
         SET geracao := "Geração Y";
-    ELSEIF AND ano <= 2009 THEN
+    ELSEIF ano >= 1998 AND ano <= 2009 THEN
         SET geracao := "Geração Z";
     ELSE
         SET geracao := "Geração Alpha";
     END IF;
     SELECT geracao;     
+
 END $
 DELIMITER ;
 
@@ -619,3 +619,33 @@ CALL VerificarGeracaoProcedure("1955-01-01");
 CALL VerificarGeracaoProcedure("1962-01-01");
 CALL VerificarGeracaoProcedure("1982-01-01");
 CALL VerificarGeracaoProcedure("2010-01-01");
+
+DROP PROCEDURE IF EXISTS CadastrarAlunoComDataNascimento;
+DELIMITER $
+CREATE PROCEDURE CadastrarAlunoComDataNascimento(IN nome VARCHAR(30), data_nascimento DATE)
+BEGIN  
+    DECLARE idade INT;
+    DECLARE ano_nascimento INT;
+    DECLARE ano_hoje INT;
+    SET ano_nascimento := YEAR(data_nascimento);
+    SET ano_hoje := YEAR(NOW());
+    SET idade := ano_hoje - ano_nascimento;
+    INSERT INTO alunos (nome, idade, data_nascimento) VALUES (nome, idade, data_nascimento);
+    SELECT * FROM alunos;
+END $
+DELIMITER ;
+CALL CadastrarAlunoComDataNascimento("Joana", "1994-06-04");
+
+DROP PROCEDURE IF EXISTS CadastrarAlunoComIdade;
+DELIMITER $
+CREATE PROCEDURE CadastrarAlunoComIdade(IN nome VARCHAR(30), idade INT,)
+BEGIN  
+    DECLARE idade INT;
+    SET idade := 2023 - idade;
+    INSERT INTO alunos (nome, idade) VALUES (nome, idade);
+    SELECT * FROM alunos;
+END $
+DELIMITER ;
+
+CALL CadastrarAlunoComIdade("Joana", 29);
+
