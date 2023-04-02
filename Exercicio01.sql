@@ -1,27 +1,25 @@
+-- Enunciado: Criar tabela de estoques
+--      id: INT
+--      produto: VARCHAR(50)
+--      quantidade: INT
+--      preco_unitario: FLOAT(6, 2)
+--      data_vencimento: DATE
+--      categoria: VARCHAR(30)
 
-CREATE TABLE estoques(
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    produto VARCHAR(50) NOT NULL,
-    quatidade INT,
-    preco_unitario FLOAT(6,2),
-    data_vencimento DATE,
-    categoria VARCHAR(30)
-);
+-- Inserir 7 registros
+--      2 registros de frutas
+--      2 registros de lanches
+--      2 registros de bebidas
+--      1 registro de produtos de limpeza
 
-INSERT INTO estoques(produto, quatidade, preco_unitario, data_vencimento, categoria) VALUE("Maçã", 10, 0.50, "2023-03-25", "Fruta");
-INSERT INTO estoques(produto, quatidade, preco_unitario, data_vencimento, categoria) VALUE("Pera", 24, 0.30, "2023-03-22", "Fruta");
-INSERT INTO estoques(produto, quatidade, preco_unitario, data_vencimento, categoria) VALUE("Desinfetante", 4, 15.99, "2028-01-22", "Produto de limpeza");
-INSERT INTO estoques(produto, quatidade, preco_unitario, data_vencimento, categoria) VALUE("Hamburguer", 12, 27.99, "2023-03-22", "Lanches");
-INSERT INTO estoques(produto, quatidade, preco_unitario, data_vencimento, categoria) VALUE("Coxinha", 5, 6.99, "2023-03-22", "Lanches");
-INSERT INTO estoques(produto, quatidade, preco_unitario, data_vencimento, categoria) VALUE("Refrigerante", 196, 7.49, "2023-03-22", "Bebidas");
-INSERT INTO estoques(produto, quatidade, preco_unitario, data_vencimento, categoria) VALUE("Suco", 1024, 4.79, "2023-03-22", "Bebidas");
+-- Categorias [Frutas, Lanches, Bebidas e Produtos de Limpeza]
 
-SELECT id, produto, quatidade, preco_unitario, data_vencimento, categoria FROM estoques;
-
-SELECT MIN(preco_unitario) FROM estoques;
-
-SELECT MAX(quatidade) FROM estoques;
-
-SELECT SUM(preco_unitario*quatidade) FROM estoques;
-
-SELECT categoria FROM estoques WHERE categoria = "Bebidas" AND ORDER BY quatidade ASC;
+-- OBS.: PROIBIDO A UTILZIÇÃO DE * EM CONSULTAS SELECT
+-- Consultar todos as colunas registros
+-- Consultar o menor preço
+-- Consultar a maior quantidade
+-- Consultar nome, quantidade, preço unitário e valor dos produtos
+-- Consultar soma total dos valores dos produtos(quanitdade multiplicando preço unitário)
+-- Consultar os produtos da categoria bebidas ordenando pela menor quantidade
+-- Consutlar os produtos de categoria frutas e preço unitário maior que R$ 10,00
+-- LINK MIRO: https://miro.com/app/board/uXjVMeHZLE0=/?share_link_id=821951056661
